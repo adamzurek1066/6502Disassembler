@@ -1,11 +1,15 @@
 CC = g++
 CFLAGS = -Wall -g
-OBJECTS = disassembler.o
+OBJECTS = disassembler.o instructions.o
 
 main: $(OBJECTS)
 	$(CC) $(CFLAGS) -o disassembler $(OBJECTS)
 
-disassembler.o: disassembler.h
+
+instructions.o: instructions.h
+
+disassembler.o: disassembler.h instructions.h
+
 
 clean:
 	rm *.o disassembler
