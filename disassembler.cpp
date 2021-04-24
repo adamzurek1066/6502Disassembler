@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstdint>
 #include <vector>
+#include <stdlib.h>
 #include "disassembler.h"
 #include "instructions.h"
 
@@ -14,7 +15,22 @@ disassembler::disassembler(std::string inFileName, std::string outFileName){ //c
 }
 
 void disassembler::output(void){
-    outFile << instructions[1].instruction;
+    char temp[2];
+    uint8_t hexVal;
+    for (int i = 0; i < inputCode.length(); i += 3){
+        temp[0] = inputCode[i];
+        temp[1] = inputCode[i + 1];
+        hexVal = strtol(temp, NULL, 16);
+        for (struct opcode j : instructions){
+            if (j.code == hexVal){
+                if (j.bytes == 1){
+                    outFile << j.instruction << "\n";
+                }
+            }
+        }
+    }
+
+    outFile.close();
 }
 
 int main(int argc, char ** argv){
